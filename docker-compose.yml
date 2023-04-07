@@ -1,30 +1,26 @@
 version: '3.8'
 services:
-  app:
+  nginx-proxy:
     image: 'jc21/nginx-proxy-manager:latest'
     tty: true
     container_name: nginx-proxy
     restart: unless-stopped
     ports:
-      # These ports are in format <host-port>:<container-port>
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
-      # Add any other Stream port you want to expose
-      # - '21:21' # FTP
-
-      # Uncomment the next line if you uncomment anything in the section
-      # environment:
-      # Uncomment this if you want to change the location of
-      # the SQLite DB file within the container
-      # DB_SQLITE_FILE: "/data/database.sqlite"
-
-      # Uncomment this if IPv6 is not enabled on your host
-      # DISABLE_IPV6: 'true'
 
     volumes:
-      - ${BASE_PATH}/data:/data
-      - ${BASE_PATH}/letsencrypt:/etc/letsencrypt
+      - ${NGINX_BASE_PATH}/data:/data
+      - ${NGINX_BASE_PATH}/letsencrypt:/etc/letsencrypt
+
+  phpmyadmin:
+    image: 'phpmyadmin/phpmyadmin:latest'
+    tty: true
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_ARBITRARY=1
 
 networks:
   default:
