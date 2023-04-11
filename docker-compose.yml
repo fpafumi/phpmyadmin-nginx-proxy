@@ -14,6 +14,20 @@ services:
       - ${NGINX_BASE_PATH}/data:/data
       - ${NGINX_BASE_PATH}/letsencrypt:/etc/letsencrypt
 
+  mariadb:
+    tty: true
+    container_name: mariadb-localhost
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    image: mariadb:latest
+    #ports:
+      #- 3306:3306
+    healthcheck:
+      test: "/usr/bin/mariadb --user=${MYSQL_USER} --password=${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\""
+    volumes:
+      - ${MYSQL_CONF_PATH}:/etc/mysql/conf.d
+      - ${MYSQL_DATA_PATH}:/var/lib/mysql
+
   phpmyadmin:
     image: 'phpmyadmin/phpmyadmin:latest'
     tty: true
