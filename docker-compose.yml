@@ -20,8 +20,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     image: mariadb:latest
-    #ports:
-      #- 3306:3306
+    ports:
+      - 3306:3306
     healthcheck:
       test: "/usr/bin/mariadb --user=${MYSQL_USER} --password=${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\""
     restart: unless-stopped
