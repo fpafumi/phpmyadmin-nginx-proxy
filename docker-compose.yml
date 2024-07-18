@@ -36,6 +36,7 @@ services:
     restart: unless-stopped
     environment:
       - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=2G
 
 networks:
   default:
