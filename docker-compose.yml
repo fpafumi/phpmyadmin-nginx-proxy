@@ -37,6 +37,32 @@ services:
       - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=2G
 
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      #POSTGRES_DB: mydb
+    volumes:
+      - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgresql
+    volumes:
+      - ${PGADMIN_DATA_PATH}:/var/lib/pgadmin
+
+
 networks:
   default:
     name: nginx-proxy-network
