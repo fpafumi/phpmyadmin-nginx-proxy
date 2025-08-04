@@ -40,6 +40,8 @@ services:
   postgresql:
     image: postgres:latest
     container_name: postgresql
+    ports:
+      - 5432:5432
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
